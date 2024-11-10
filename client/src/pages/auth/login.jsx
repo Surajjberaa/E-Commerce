@@ -14,7 +14,7 @@ function AuthLogin() {
 
   const [formData, setFormData] = useState(initialState)
 
-  function onSubmit(){
+  function onSubmit() {
 
   }
 
@@ -27,11 +27,11 @@ function AuthLogin() {
         </p>
       </div>
       <CommonForm
-      formControls={loginFormControls}
-      buttonText={'Sign In'}
-      formData={formData}
-      setFormData={setFormData}
-      onSubmit={onSubmit}
+        formControls={loginFormControls}
+        buttonText={'Sign In'}
+        formData={formData}
+        setFormData={setFormData}
+        onSubmit={onSubmit}
       />
     </div>
   )

@@ -3,7 +3,7 @@ import React from 'react'
 function ShoppingHeader() {
   return (
     <div className=''>
-        Shopping view Header 
+      Shopping view Header
     </div>
   )
 }

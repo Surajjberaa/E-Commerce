@@ -31,36 +31,36 @@ function App() {
       <h1 className='text-4xl text-center'>Header Component</h1>
 
       <Routes>
-        <Route path='/auth'  element={
+        <Route path='/auth' element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AuthLayout/>
+            <AuthLayout />
           </CheckAuth>
         }>
-          <Route path='login' element={<AuthLogin/>}/>
-          <Route path='register' element={<AuthRegister/>}/>
+          <Route path='login' element={<AuthLogin />} />
+          <Route path='register' element={<AuthRegister />} />
         </Route>
         <Route path='/admin' element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <AdminLayout/>
+            <AdminLayout />
           </CheckAuth>
         }>
-          <Route path='dashboard' element={<AdminDashboard/>}/>
-          <Route path='features' element={<AdminFeatures/>}/>
-          <Route path='orders' element={<AdminOrders/>}/>
-          <Route path='products' element={<AdminProducts/>}/>
+          <Route path='dashboard' element={<AdminDashboard />} />
+          <Route path='features' element={<AdminFeatures />} />
+          <Route path='orders' element={<AdminOrders />} />
+          <Route path='products' element={<AdminProducts />} />
         </Route>
         <Route path='/shop' element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-            <ShoppingLayout/>
+            <ShoppingLayout />
           </CheckAuth>
         }>
-          <Route path='home' element={<ShoppingHome/>}/>
-          <Route path='account' element={<ShoppingAccount/>}/>
-          <Route path='checkout' element={<ShoppingCheckout/>}/>
-          <Route path='listing' element={<ShoppingListing/>}/>
+          <Route path='home' element={<ShoppingHome />} />
+          <Route path='account' element={<ShoppingAccount />} />
+          <Route path='checkout' element={<ShoppingCheckout />} />
+          <Route path='listing' element={<ShoppingListing />} />
         </Route>
-        <Route path='*' element={<NotFound/>}/>
-        <Route path='/unauthorised-page' element={<UnauthorisedPage/>}/>
+        <Route path='*' element={<NotFound />} />
+        <Route path='/unauthorised-page' element={<UnauthorisedPage />} />
       </Routes>
 
     </div>

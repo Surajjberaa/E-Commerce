@@ -8,7 +8,7 @@ function AdminLayout() {
       <div className='flex flex-1 flex-col '>
         {/* Admin Header */}
         <main className='flex flex-1 bg-muted/40 p-4 md:p-6 '>
-            <Outlet/>
+          <Outlet />
         </main>
       </div>
     </div>

@@ -8,11 +8,11 @@ require('dotenv').config();
 const DATABASE_URL = process.env.DATABASE_URL
 
 
-mongoose.connect(DATABASE_URL).then(()=>{
+mongoose.connect(DATABASE_URL).then(() => {
     console.log("Mongo is connected");
-}).catch((error)=>{
+}).catch((error) => {
     console.log(error);
-    
+
 })
 
 const app = express();
@@ -36,7 +36,7 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 
-app.listen(PORT, ()=> {
+app.listen(PORT, () => {
     console.log("Server is running on " + PORT);
-    
+
 })
