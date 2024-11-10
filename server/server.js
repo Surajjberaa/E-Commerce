@@ -1,9 +1,11 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import dotenv from 'dotenv';
+import authRouter from './routes/auth/auth-routes.js'
 
+dotenv.config();
 
 const DATABASE_URL = process.env.DATABASE_URL
 
@@ -35,6 +37,13 @@ app.use(
 
 app.use(cookieParser())
 app.use(express.json())
+app.use('/api/auth', authRouter)
+
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: "Hi from server"
+    })
+})
 
 app.listen(PORT, () => {
     console.log("Server is running on " + PORT);
