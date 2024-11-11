@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs'
 import User from "../../models/User.js"
 import jwt from 'jsonwebtoken'
+
+
+
 // registerUser
 export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
@@ -38,8 +41,8 @@ export const registerUser = async (req, res) => {
     }
 }
 
-// login
 
+// login
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -96,7 +99,38 @@ export const loginUser = async (req, res) => {
     }
 }
 
+
 // logout
+export const logoutUser = async (req, res) => {
+    res.clearCookie("token").json({
+        success: true,
+        message: "Logged out successfully"
+    })
+}
+
 
 // auth-middleware
+export const authMiddleware = async (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json({
+            success: false,
+            message: "Unauthorised user!"
+        }).status(401)
+    }
+
+    try {
+
+        const decoded = jwt.verify(token, 'CLIENT_SECRET_KEY');
+        req.user = decoded
+        next()
+
+    } catch (error) {
+        res.json({
+            success: false,
+            message: "Unauthorised user!",
+            error: error
+        }).status(401)
+    }
+}
 

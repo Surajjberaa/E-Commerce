@@ -24,7 +24,7 @@ function AuthLogin() {
 
     event.preventDefault();
     dispatch(loginUser(formData)).then((data) => {
-      console.log(data);
+      // console.log(data);
 
 
       if (data?.payload?.success) {

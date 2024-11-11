@@ -5,7 +5,7 @@ import axios from "axios"
 
 const initialState = {
     isAuthenticated: false,
-    isLoading: false,
+    isLoading: true,
     user: null
 }
 const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
@@ -32,6 +32,23 @@ export const loginUser = createAsyncThunk('/auth/login',
             FormData, {
             withCredentials: true,
         }
+        )
+        return response.data
+    }
+)
+
+export const checkAuth = createAsyncThunk('/auth/authCheck',
+
+
+    async () => {
+        const response = await axios.get(`${BACKEND_URL}/api/auth/authCheck`,
+            {
+                withCredentials: true,
+                headers: {
+                    "Cache-Control":
+                        'no-store, no-cache, must-revalidate, proxy-revalidate'
+                }
+            }
         )
         return response.data
     }
@@ -65,6 +82,16 @@ const authSlice = createSlice({
                 state.user = action.payload.success ? action.payload.user : null
                 state.isAuthenticated = action.payload.success
             }).addCase(loginUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.user = null
+                state.isAuthenticated = false
+            }).addCase(checkAuth.pending, (state) => {
+                state.isLoading = true
+            }).addCase(checkAuth.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload.success ? action.payload.user : null
+                state.isAuthenticated = action.payload.success
+            }).addCase(checkAuth.rejected, (state, action) => {
                 state.isLoading = false
                 state.user = null
                 state.isAuthenticated = false

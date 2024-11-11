@@ -16,10 +16,21 @@ import ShoppingAccount from './pages/shopping-view/account'
 import ShoppingCheckout from './pages/shopping-view/checkout'
 import CheckAuth from './components/common/checkAuth'
 import UnauthorisedPage from './pages/unauthorised-page'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { checkAuth } from './store/auth-slice'
+import { Skeleton } from './components/ui/skeleton'
 
 function App() {
-  const { isAuthenticated, user } = useSelector((state) => state.auth)
+  const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(checkAuth())
+  }, [dispatch])
+
+  if (isLoading) {
+    return <Skeleton className='w-full h-[600px] bg-slate-100 ' />
+  }
 
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
