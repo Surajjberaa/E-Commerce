@@ -23,7 +23,7 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null)
   const [uploadedImageUrl, setUploadedImageUrl] = useState('')
 
-  function onSubmit(){
+  function onSubmit() {
 
   }
 
