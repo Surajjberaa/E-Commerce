@@ -1,10 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input';
 import { FileIcon, UploadCloudIcon, XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import axios from 'axios';
 
-function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl }) {
+const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
+
+function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUploadedImageUrl, setImageLoadingState }) {
 
     const inputRef = useRef(null)
 
@@ -32,6 +35,25 @@ function ProductImageUpload({ imageFile, setImageFile, uploadedImageUrl, setUplo
             inputRef.current.value = ''
         }
     }
+
+
+    async function uploadImageToCloudinary() {
+        setImageLoadingState(true)
+        const data = new FormData()
+        data.append('my_file', imageFile)
+        const response = await axios.post(`${BACKEND_URL}/api/admin/products/upload-image`, data)
+        console.log(response.data);
+
+        if (response?.data?.success) {
+            setUploadedImageUrl(response.data.result.url)
+            setImageLoadingState(false)
+        }
+
+    }
+
+    useEffect(() => {
+        if (imageFile !== null) uploadImageToCloudinary()
+    }, [imageFile])
 
 
     return (

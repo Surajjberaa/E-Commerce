@@ -4,11 +4,11 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv';
 import authRouter from './routes/auth/auth-routes.js'
+import adminProductsRouter from './routes/admin/product-routes.js'
 
 dotenv.config();
 
 const DATABASE_URL = process.env.DATABASE_URL
-
 
 mongoose.connect(DATABASE_URL).then(() => {
     console.log("Mongo is connected");
@@ -38,6 +38,7 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 app.use('/api/auth', authRouter)
+app.use('/api/admin/products', adminProductsRouter)
 
 app.get('/', (req, res) => {
     res.status(200).json({
