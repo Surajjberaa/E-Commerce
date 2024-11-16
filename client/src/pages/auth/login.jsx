@@ -24,13 +24,18 @@ function AuthLogin() {
 
     event.preventDefault();
     dispatch(loginUser(formData)).then((data) => {
-      // console.log(data);
+      console.log(data);
 
 
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
         })
+        if(data?.payload?.user?.role == 'admin') {
+          navigate('/admin/dashboard')
+        } else {
+          navigate('/shop/home')
+        }
       } else {
         toast({
           title: data?.payload?.message,

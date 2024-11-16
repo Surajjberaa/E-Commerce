@@ -1,5 +1,5 @@
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import AuthLayout from './components/auth/layout'
 import AuthRegister from './pages/auth/register'
 import AuthLogin from './pages/auth/login'
@@ -24,6 +24,7 @@ import { Skeleton } from './components/ui/skeleton'
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(checkAuth())
   }, [dispatch])
@@ -67,6 +68,7 @@ function App() {
           <Route path='listing' element={<ShoppingListing />} />
         </Route>
         <Route path='*' element={<NotFound />} />
+        
         <Route path='/unauthorised-page' element={<UnauthorisedPage />} />
       </Routes>
 
