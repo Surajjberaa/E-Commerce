@@ -36,7 +36,7 @@ function App() {
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
 
-      <h1 className='text-4xl text-center'>Header Component</h1>
+      <h1 className='text-4xl text-center'>E-Commerce</h1>
 
       <Routes>
         <Route path='/auth' element={
@@ -68,7 +68,7 @@ function App() {
           <Route path='listing' element={<ShoppingListing />} />
         </Route>
         <Route path='*' element={<NotFound />} />
-        
+
         <Route path='/unauthorised-page' element={<UnauthorisedPage />} />
       </Routes>
 

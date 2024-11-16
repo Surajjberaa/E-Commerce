@@ -31,7 +31,7 @@ function AuthLogin() {
         toast({
           title: data?.payload?.message,
         })
-        if(data?.payload?.user?.role == 'admin') {
+        if (data?.payload?.user?.role == 'admin') {
           navigate('/admin/dashboard')
         } else {
           navigate('/shop/home')
