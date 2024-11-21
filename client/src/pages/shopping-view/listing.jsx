@@ -7,6 +7,22 @@ import { fetchAllFilteredProducts } from '@/store/shop/products-slice'
 import { ArrowUpDownIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'react-router-dom'
+
+function createSearchParamsHelper(filterParams) {
+  const queryParams = []
+
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value) && value.length > 0) {
+      const paramValue = value.join(',')
+
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`)
+    }
+  }
+
+  return queryParams.join('&')
+}
+
 
 function ShoppingListing() {
 
@@ -14,6 +30,7 @@ function ShoppingListing() {
   const { productList } = useSelector((state) => state.shoppingProducts)
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
+  const [searchParams, setSearchParams] = useSearchParams()
 
   function handleSort(value) {
     setSort(value)
@@ -49,16 +66,24 @@ function ShoppingListing() {
   }, [])
 
   useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      const createQueryString = createSearchParamsHelper(filters)
+      setSearchParams(new URLSearchParams(createQueryString))
+    }
+  }, [filters])
 
-    dispatch(fetchAllFilteredProducts())
-  }, [dispatch])
+  useEffect(() => {
 
-  console.log(filters, 'filters');
+    if (filters !== null && sort !== null) {
+      dispatch(fetchAllFilteredProducts({ filterParams: filters, sortParams: sort }))
+    }
+  }, [dispatch, filters, sort])
+
 
 
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6 '>
+    <div className='grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6 '>
       <ProductFilter filters={filters} handleFilter={handleFilter} />
       <div className='bg-background w-full rounded-lg shadow-sm '>
         <div className='p-4 border-b flex item-center justify-between'>
@@ -95,7 +120,7 @@ function ShoppingListing() {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4'>
           {
             productList && productList.length > 0 ?
-              productList.toReversed().map((product) => (
+              productList.map((product) => (
                 <ShoppingProductTile key={product._id} product={product} />
               )) : null
           }
