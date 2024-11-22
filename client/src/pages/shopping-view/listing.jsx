@@ -1,9 +1,10 @@
 import ProductFilter from '@/components/shopping-view/filter'
+import ProductDetailsDialog from '@/components/shopping-view/product-details'
 import ShoppingProductTile from '@/components/shopping-view/product-tile'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { sortOptions } from '@/config'
-import { fetchAllFilteredProducts } from '@/store/shop/products-slice'
+import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/products-slice'
 import { ArrowUpDownIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,17 +28,17 @@ function createSearchParamsHelper(filterParams) {
 function ShoppingListing() {
 
   const dispatch = useDispatch()
-  const { productList } = useSelector((state) => state.shoppingProducts)
+  const { productList, productDetails } = useSelector((state) => state.shoppingProducts)
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
 
   function handleSort(value) {
     setSort(value)
   }
 
   function handleFilter(getSectionId, getCurrentOption) {
-    // console.log(getSectionId, getCurrentOption);
 
     let copyFilter = { ...filters }
     const indexOfCurrentSection = Object.keys(copyFilter).indexOf(getSectionId)
@@ -58,6 +59,19 @@ function ShoppingListing() {
     setFilters(copyFilter)
     sessionStorage.setItem('filters', JSON.stringify(copyFilter))
   }
+
+  function handleGetProductDetails(getCurrentProductId) {
+    console.log(getCurrentProductId);
+    dispatch(fetchProductDetails(getCurrentProductId))
+  }
+
+  console.log(productDetails, 'productDetails');
+
+
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true)
+  }, [productDetails])
+
 
 
   useEffect(() => {
@@ -121,11 +135,12 @@ function ShoppingListing() {
           {
             productList && productList.length > 0 ?
               productList.map((product) => (
-                <ShoppingProductTile key={product._id} product={product} />
+                <ShoppingProductTile key={product._id} product={product} handleGetProductDetails={handleGetProductDetails} />
               )) : null
           }
         </div>
       </div>
+      <ProductDetailsDialog open={openDetailsDialog} setOpen={setOpenDetailsDialog} productDetails={productDetails} />
     </div>
   )
 }

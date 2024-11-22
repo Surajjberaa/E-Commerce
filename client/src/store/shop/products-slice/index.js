@@ -5,7 +5,8 @@ const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
 
 const initialState = {
     isLoading: false,
-    productList: []
+    productList: [],
+    productDetails: null
 }
 
 export const fetchAllFilteredProducts = createAsyncThunk('/products/fetchAllProducts',
@@ -23,6 +24,13 @@ export const fetchAllFilteredProducts = createAsyncThunk('/products/fetchAllProd
 
 )
 
+export const fetchProductDetails = createAsyncThunk('/products/fetchProductDetails',
+    async (id) => {
+        const result = await axios.get(`${BACKEND_URL}/api/shop/products/get/${id}`)
+        return result?.data
+    }
+)
+
 const ShoppingProductSlice = createSlice({
     name: 'shoppingProducts',
     initialState,
@@ -37,6 +45,15 @@ const ShoppingProductSlice = createSlice({
         }).addCase(fetchAllFilteredProducts.rejected, (state, action) => {
             state.isLoading = false
             state.productList = []
+        }).addCase(fetchProductDetails.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(fetchProductDetails.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.productDetails = action.payload.data
+
+        }).addCase(fetchProductDetails.rejected, (state, action) => {
+            state.isLoading = false
+            state.productDetails = null
         })
     }
 })
