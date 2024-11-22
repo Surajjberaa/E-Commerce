@@ -4,6 +4,8 @@ import ShoppingProductTile from '@/components/shopping-view/product-tile'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { sortOptions } from '@/config'
+import { useToast } from '@/hooks/use-toast'
+import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
 import { fetchAllFilteredProducts, fetchProductDetails } from '@/store/shop/products-slice'
 import { ArrowUpDownIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
@@ -29,10 +31,12 @@ function ShoppingListing() {
 
   const dispatch = useDispatch()
   const { productList, productDetails } = useSelector((state) => state.shoppingProducts)
+  const { user } = useSelector((state) => state.auth)
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+  const { toast } = useToast()
 
   function handleSort(value) {
     setSort(value)
@@ -65,14 +69,21 @@ function ShoppingListing() {
     dispatch(fetchProductDetails(getCurrentProductId))
   }
 
-  console.log(productDetails, 'productDetails');
-
+  function handleAddToCart(getCurrentProductId) {
+    dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
+      console.log(data, 'data');
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id))
+        toast({
+          title: "Product added to cart successfully"
+        })
+      }
+    })
+  }
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true)
   }, [productDetails])
-
-
 
   useEffect(() => {
     setSort('price-lowtohigh')
@@ -87,13 +98,10 @@ function ShoppingListing() {
   }, [filters])
 
   useEffect(() => {
-
     if (filters !== null && sort !== null) {
       dispatch(fetchAllFilteredProducts({ filterParams: filters, sortParams: sort }))
     }
   }, [dispatch, filters, sort])
-
-
 
 
   return (
@@ -135,7 +143,7 @@ function ShoppingListing() {
           {
             productList && productList.length > 0 ?
               productList.map((product) => (
-                <ShoppingProductTile key={product._id} product={product} handleGetProductDetails={handleGetProductDetails} />
+                <ShoppingProductTile key={product._id} product={product} handleGetProductDetails={handleGetProductDetails} handleAddToCart={handleAddToCart} />
               )) : null
           }
         </div>

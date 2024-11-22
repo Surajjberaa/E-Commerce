@@ -1,36 +1,64 @@
 import React from 'react'
-import { Dialog, DialogContent } from '../ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '../ui/dialog'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import { StarIcon } from 'lucide-react'
 import { Input } from '../ui/input'
+import { addToCart, fetchCartItems } from '@/store/shop/cart-slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useToast } from '@/hooks/use-toast'
+import { setProductDetails } from '@/store/shop/products-slice'
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
+
+    const dispatch = useDispatch()
+    const { user } = useSelector((state) => state.auth)
+    const { toast } = useToast()
+
+    function handleAddToCart(getCurrentProductId) {
+        dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
+            console.log(data, 'data');
+            if (data?.payload?.success) {
+                dispatch(fetchCartItems(user?.id))
+                toast({
+                    title: "Product added to cart successfully"
+                })
+            }
+        })
+    }
+
+    function handleDialogOpen() {
+        dispatch(setProductDetails(null))
+        setOpen(false)
+    }
+
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleDialogOpen}>
             <DialogContent className='grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]'>
+
                 <div className='relative overflow-hidden rounded-lg'>
-                    <img src={productDetails.image} alt={productDetails.title} fill width={600} height={600} className='object-cover aspect-square w-full' />
+
+                    <img src={productDetails?.image} alt={productDetails?.title} fill width={600} height={600} className='object-cover aspect-square w-full' />
                 </div>
                 <div className=''>
                     <div className='space-y-2.5 mb-6'>
-                        <h1 className='text-3xl font-extrabold'>
-                            {productDetails.title}
-                        </h1>
+                        <DialogTitle className='text-3xl font-extrabold'>
+                            {productDetails?.title}
+                        </DialogTitle>
                         <p className='text-muted-foreground text-xl '>
-                            {productDetails.description}
+                            {productDetails?.description}
                         </p>
                     </div>
                     <div className='flex items-center justify-between'>
-                        <p className={`text-3xl font-bold text-primary ${productDetails.salePrice > 0 ? 'line-through' : ''}`}>
-                            ${productDetails.price}
+                        <p className={`text-3xl font-bold text-primary ${productDetails?.salePrice > 0 ? 'line-through' : ''}`}>
+                            ${productDetails?.price}
                         </p>
-                        <p className={`text-3xl items-center flex font-bold ${productDetails.salePrice > 0 ? 'text-green-500' : 'hidden'}`}>
+                        <p className={`text-3xl items-center flex font-bold ${productDetails?.salePrice > 0 ? 'text-green-500' : 'hidden'}`}>
                             <span className='text-muted-foreground text-2xl font-normal'>
                                 Sale Price: &nbsp;
                             </span>
-                            ${productDetails.salePrice}
+                            ${productDetails?.salePrice}
                         </p>
                     </div>
                     <div className='flex items-center gap-2 mt-2'>
@@ -45,7 +73,9 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
                     </div>
                     <div className='mt-5'>
-                        <Button className={`w-full ${productDetails.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'>
+                        <Button className={`w-full ${productDetails?.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'
+                            onClick={() => handleAddToCart(productDetails?._id)}
+                        >
                             Add to Cart
                         </Button>
                     </div>
