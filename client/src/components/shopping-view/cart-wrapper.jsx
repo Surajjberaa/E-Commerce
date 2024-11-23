@@ -18,7 +18,7 @@ function UserCartWrapper({ cartItems }) {
         {
           cartItems && cartItems?.length > 0 ?
             cartItems.map((item) => (
-              <UserCartItemsContent key={item?._id} cartItem={item} />
+              <UserCartItemsContent key={item?.productId} cartItem={item} />
             ))
             :
             <div className='text-center text-sm text-gray-500'>
