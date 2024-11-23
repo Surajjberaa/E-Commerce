@@ -11,11 +11,37 @@ import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu'
 import { logoutUser } from '@/store/auth-slice'
 import UserCartWrapper from './cart-wrapper'
 import { fetchCartItems } from '@/store/shop/cart-slice'
+import { Label } from '../ui/label'
 
 function MenuItems() {
+
+  const navigate = useNavigate()
+
+  function handleNavigate(getCurrentMenuItem) {
+
+    sessionStorage.removeItem('filters')
+    const currentFilter = getCurrentMenuItem.id !== 'home' ? {
+      category: [getCurrentMenuItem.id]
+    } : null
+    console.log('inside navigate');
+    console.log(getCurrentMenuItem);
+
+
+    sessionStorage.setItem('filters', JSON.stringify(currentFilter))
+    navigate(getCurrentMenuItem.path)
+
+  }
+
   return <nav className='flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 w-full lg:flex-row'>
     {
-      shoppingViewHeaderMenuItems.map(menuItem => <Link className='text-sm font-medium' key={menuItem.id} to={menuItem.path}>{menuItem.label}</Link>)
+      shoppingViewHeaderMenuItems.map(menuItem =>
+        <Label
+          className='text-sm font-medium cursor-pointer '
+          key={menuItem.id}
+          onClick={() => handleNavigate(menuItem)}
+        >
+          {menuItem.label}
+        </Label>)
     }
 
   </nav>
@@ -42,7 +68,7 @@ function HeaderRightContent() {
   return <div className='flex lg:items-center lg:flex-row flex-col justify-end gap-4'>
     <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
       <Button variant='outline' size='icon' onClick={() => setOpenCartSheet(true)}>
-        <ShoppingCart className='h-6 w-6 '  />
+        <ShoppingCart className='h-6 w-6 ' />
         <span className='sr-only'>User Cart</span>
       </Button>
       <UserCartWrapper cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []} />
