@@ -45,7 +45,7 @@ export const fetchAllAddress = async (req, res) => {
             })
         }
 
-        const address = await Address.findOne({ userId })
+        const address = await Address.find({ userId })
 
         res.status(200).json({
             success: true,
@@ -73,7 +73,7 @@ export const editAddress = async (req, res) => {
             })
         }
 
-        const address = Address.findOneAndUpdate({
+        const address = await Address.findOneAndUpdate({
             _id: addressId,
             userId: userId
         }, formData, { new: true })
@@ -93,8 +93,11 @@ export const editAddress = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Internal Server Error"
+            message: "Internal Server Error",
+            error: error
         })
+        console.log(error);
+        
     }
 }
 

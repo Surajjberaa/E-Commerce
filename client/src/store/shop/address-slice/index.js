@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
 
@@ -18,7 +19,7 @@ export const editAddress = createAsyncThunk('adresses/editAddress', async ({ use
     return response.data
 })
 
-export const fetchAllAddress = createAsyncThunk('addresses/fetchAllAddress', async ({ userId }) => {
+export const fetchAllAddress = createAsyncThunk('addresses/fetchAllAddress', async (userId) => {
     const response = await axios.get(`${BACKEND_URL}/api/shop/address/get/${userId}`)
     return response.data
 })
@@ -36,11 +37,9 @@ const addressSlice = createSlice({
         builder.addCase(addNewAddress.pending, (state) => {
             state.isLoading = true
         }).addCase(addNewAddress.fulfilled, (state, action) => {
-            state.isLoading = false,
-                state.addressList = action.payload.data
+            state.isLoading = false
         }).addCase(addNewAddress.rejected, (state) => {
             state.isLoading = false
-            state.addressList = []
         }).addCase(editAddress.pending, (state) => {
             state.isLoading = true
         }).addCase(editAddress.fulfilled, (state, action) => {
