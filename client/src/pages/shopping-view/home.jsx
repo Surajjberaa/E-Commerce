@@ -123,7 +123,7 @@ function ShoppingHome() {
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
             {
               categoriesWithIcon.map((categoryItem) => (
-                <Card onClick={() => handleNavigateToListingPage(categoryItem, 'category')} key={categoryItem.id} className='cursor-pointer hover:shadow-lg transition-shadow duration-300'>
+                <Card onClick={() => handleNavigateToListingPage(categoryItem, 'category')} key={categoryItem.id} className='cursor-pointer hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'>
                   <CardContent className='flex flex-col items-center justify-center p-6 gap-2'>
                     <categoryItem.icon className='w-12 h-12 mb-4 text-primary' />
                     <p className='text-lg font-bold text-gray-800'>{categoryItem.label}</p>
@@ -141,7 +141,7 @@ function ShoppingHome() {
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
             {
               brandsWithIcon.map((brandItem) => (
-                <Card onClick={() => handleNavigateToListingPage(brandItem, 'brand')} key={brandItem.id} className='cursor-pointer hover:shadow-lg transition-shadow duration-300'>
+                <Card onClick={() => handleNavigateToListingPage(brandItem, 'brand')} key={brandItem.id} className='cursor-pointer hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'>
                   <CardContent className='flex flex-col items-center justify-center p-6 gap-2'>
                     <img src={brandItem.icon} alt={brandItem.label} className='w-30 h-12 mb-4 text-primary' />
                     <p className='text-lg font-bold text-gray-800'>{brandItem.label}</p>
