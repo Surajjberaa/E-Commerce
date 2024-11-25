@@ -3,12 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Button } from '../ui/button'
 
-function ShoppingOrders() {
+
+function AdminOrdersView() {
     return (
         <Card>
             <CardHeader>
                 <CardTitle>
-                    Order History
+                    All Orders
                 </CardTitle>
             </CardHeader>
             <CardContent>
@@ -53,4 +54,4 @@ function ShoppingOrders() {
     )
 }
 
-export default ShoppingOrders
+export default AdminOrdersView
