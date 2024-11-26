@@ -3,9 +3,15 @@ import { Card, CardContent, CardFooter, CardHeader } from '../ui/card'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
 
-function AddressCard({ addressInfo, handleDeleteAddress, handleEditAddress }) {
+function AddressCard({ addressInfo, handleDeleteAddress, handleEditAddress, setCurrentSelectedAddress }) {
     return (
-        <Card className='hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'>
+        <Card className='hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'
+            onClick={
+                setCurrentSelectedAddress
+                    ? () => setCurrentSelectedAddress(addressInfo)
+                    : null
+            }
+        >
             <CardHeader className='font-semibold text-xl'>
                 Address Details
             </CardHeader>
