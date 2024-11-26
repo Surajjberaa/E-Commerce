@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import paypal from '../../helper/paypal.js';
 import Order from '../../models/Order.js';
+import Cart from '../../models/Cart.js';
 
 dotenv.config();
 
@@ -99,6 +100,33 @@ export const createOrder = async (req, res) => {
 
 export const capturePayment = async (req, res) => {
     try {
+
+        const { paymentId, payerId, orderId } = req.body;
+
+        let order = await Order.findById(orderId)
+
+        if (!order) {
+            return res.status(401).json({
+                success: false,
+                message: 'Order can not be found'
+            })
+        }
+
+        order.paymentStatus = 'paid';
+        order.orderStatus = 'confirmed';
+        order.paymentId = paymentId;
+        order.payerId = payerId;
+
+        const getCartId = order.cartId;
+        await Cart.findByIdAndDelete(getCartId)
+
+        await order.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Order confirmed",
+            data: order
+        })
 
     } catch (error) {
         console.log(error);
