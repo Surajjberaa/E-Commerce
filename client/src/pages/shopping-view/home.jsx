@@ -93,7 +93,7 @@ function ShoppingHome() {
     dispatch(fetchAllFilteredProducts({ filterParams: {}, sortParams: 'price-lowtohigh' }))
   }, [dispatch])
 
-  console.log(productList, 'productList');
+  // console.log(productList, 'productList');
 
 
   return (

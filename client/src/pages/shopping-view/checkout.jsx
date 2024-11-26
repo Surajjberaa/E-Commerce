@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import UserCartItemsContent from '@/components/shopping-view/cart-items-content'
 import { Button } from '@/components/ui/button'
 import { createNewOrder } from '@/store/shop/order-slice'
+import { useToast } from '@/hooks/use-toast'
 
 function ShoppingCheckout() {
 
@@ -14,6 +15,7 @@ function ShoppingCheckout() {
   const [isPaymentStart, setIsPaymentStart] = useState(false)
   const { approvalUrl, orderId } = useSelector(state => state.shopOrder)
   const dispatch = useDispatch()
+  const {toast} = useToast()
 
   console.log(currentSelectedAddress, 'currentSelectedAddress');
 
@@ -23,6 +25,25 @@ function ShoppingCheckout() {
     : 0;
 
   function handleInititatePaypalPayment() {
+    
+    console.log(cartItems, 'length');
+    if(cartItems.items.length === 0 ){
+      
+      toast({
+        title: "Your cart is empty. Please add items to proceed",
+        variant: "destructive"
+      })
+      return;
+    }
+
+    if(currentSelectedAddress === null){
+      toast({
+        title: "Please select one address to procees",
+        variant: "destructive"
+      })
+      return;
+    }
+
     const orderData = {
       userId: user?.id,
       cartId: cartItems?._id,

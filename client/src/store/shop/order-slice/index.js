@@ -6,7 +6,9 @@ const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
 const initialState = {
     approvalUrl: '',
     isLoading: false,
-    orderId: ''
+    orderId: '',
+    orderList: [],
+    orderDetails: ''
 }
 
 export const createNewOrder = createAsyncThunk('/order/createNewOrder', async (orderData) => {
@@ -17,9 +19,25 @@ export const createNewOrder = createAsyncThunk('/order/createNewOrder', async (o
 
 })
 
-export const capturePayment = createAsyncThunk('/order/createNewOrder', async ({ paymentId, payerId, orderId }) => {
+export const capturePayment = createAsyncThunk('/order/capturePayment', async ({ paymentId, payerId, orderId }) => {
 
     const response = await axios.post(`${BACKEND_URL}/api/shop/order/capture`, { paymentId, payerId, orderId })
+
+    return response.data;
+
+})
+
+export const getAllOrdersByUserId = createAsyncThunk('/order/getAllOrdersByUserId', async (userId) => {
+
+    const response = await axios.get(`${BACKEND_URL}/api/shop/order/list/${userId}`)
+
+    return response.data;
+
+})
+
+export const getOrderDetails = createAsyncThunk('/order/getOrderDetails', async (id) => {
+
+    const response = await axios.get(`${BACKEND_URL}/api/shop/order/details/${id}`)
 
     return response.data;
 
@@ -41,6 +59,22 @@ const shoppingOrderSlice = createSlice({
             state.isLoading = false;
             state.approvalUrl = null;
             state.orderId = null;
+        }).addCase(getAllOrdersByUserId.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getAllOrdersByUserId.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.orderList = action.payload.data;
+        }).addCase(getAllOrdersByUserId.rejected, (state) => {
+            state.isLoading = false;
+            state.orderList = [];
+        }).addCase(getOrderDetails.pending, (state) => {
+            state.isLoading = true;
+        }).addCase(getOrderDetails.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.orderDetails = action.payload.data;
+        }).addCase(getOrderDetails.rejected, (state) => {
+            state.isLoading = false;
+            state.orderDetails = '';
         })
     }
 })
