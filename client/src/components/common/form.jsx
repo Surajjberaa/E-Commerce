@@ -96,7 +96,7 @@ function CommonForm({ formControls, formData, setFormData, onSubmit, buttonText,
                         </div>)
                 }
             </div>
-            <Button disabled={isBtnDisabled} className='mt-4 w-full' type="submit">{buttonText || "Submit"}</Button>
+            <Button disabled={isBtnDisabled} aria-hidden='false' className='mt-4 w-full' type="submit">{buttonText || "Submit"}</Button>
         </form>
     )
 

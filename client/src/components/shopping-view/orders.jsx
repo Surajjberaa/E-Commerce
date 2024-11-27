@@ -66,9 +66,21 @@ function ShoppingOrders() {
                                 orderList.map(orderItem => (
                                     <TableRow>
                                         <TableCell>{orderItem?._id}</TableCell>
-                                        <TableCell>{orderItem?.orderDate.split('T')[0]}</TableCell>
+                                        <TableCell>{orderItem?.orderDate?.split('T')[0]}</TableCell>
                                         <TableCell>
-                                            <Badge className={`px-3 py-1 pb-2 items-center rounded-full ${orderItem?.orderStatus === 'confirmed' ? 'bg-green-600' : 'bg-black'}`}>
+                                            <Badge className={`px-3 py-1 pb-2 items-center rounded-full 
+                                                ${orderItem?.orderStatus === 'confirmed' ?
+                                                    'bg-green-600' :
+                                                    orderItem?.orderStatus === 'rejected' ?
+                                                        'bg-red-600' :
+                                                        orderItem?.orderStatus === 'inProcess' ?
+                                                            'bg-yellow-600' :
+                                                            orderItem?.orderStatus === 'delivered' ?
+                                                                'bg-purple-600' :
+                                                                orderItem?.orderStatus === 'inShipping' ?
+                                                                    'bg-gray-400' :
+                                                                    'bg-black'}
+                                                 `}>
                                                 {orderItem?.orderStatus}
                                             </Badge>
                                         </TableCell>

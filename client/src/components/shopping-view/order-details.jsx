@@ -26,7 +26,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                     </div>
                     <div className='flex items-center mt-2 justify-between'>
                         <p className='font-medium '>Order Date</p>
-                        <Label>{orderDetails?.orderDate.split('T')[0]}</Label>
+                        <Label>{orderDetails?.orderDate?.split('T')[0]}</Label>
 
                     </div>
 
@@ -47,7 +47,18 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                     <div className='flex items-center mt-2 justify-between'>
                         <p className='font-medium '>Order Status</p>
                         <Label>
-                            <Badge className={`px-3 py-1 items-center rounded-full ${orderDetails?.orderStatus === 'confirmed' ? 'bg-green-600' : 'bg-black'}`}>
+                            <Badge className={`px-3 py-1 items-center rounded-full 
+                                ${orderDetails?.orderStatus === 'confirmed' ?
+                                    'bg-green-600' :
+                                    orderDetails?.orderStatus === 'rejected' ?
+                                        'bg-red-600' :
+                                        orderDetails?.orderStatus === 'inProcess' ?
+                                            'bg-yellow-600' :
+                                            orderDetails?.orderStatus === 'delivered' ?
+                                                'bg-purple-600' :
+                                                orderDetails?.orderStatus === 'inShipping' ?
+                                                    'bg-gray-400' :
+                                                    'bg-black'}`}>
                                 {orderDetails?.orderStatus}
                             </Badge>
                         </Label>

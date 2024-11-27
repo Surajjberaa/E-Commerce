@@ -25,10 +25,9 @@ function AdminOrdersView() {
         dispatch(getAllOrdersForAdmin())
     }, [dispatch])
 
-    console.log(orderDetails, "list");
 
     useEffect(() => {
-        if (orderDetails !== null) {
+        if (orderDetails) {
             setOpenDetailsDialog(true)
         }
     }, [orderDetails])
@@ -67,17 +66,27 @@ function AdminOrdersView() {
                         {
                             orderList && orderList.length > 0 ?
                                 orderList.map(orderItem => (
-                                    <TableRow>
+                                    <TableRow key={orderItem?._id}>
                                         <TableCell>{orderItem?._id}</TableCell>
-                                        <TableCell>{orderItem?.orderDate.split('T')[0]}</TableCell>
+                                        <TableCell>{orderItem?.orderDate?.split('T')[0]}</TableCell>
                                         <TableCell>
-                                            <Badge className={`px-3 py-1 pb-2 items-center rounded-full ${orderItem?.orderStatus === 'confirmed' ? 'bg-green-600' : 'bg-black'}`}>
+                                            <Badge className={`px-3 py-1 pb-2 items-center rounded-full ${orderItem?.orderStatus === 'confirmed' ?
+                                                'bg-green-600' :
+                                                orderItem?.orderStatus === 'rejected' ?
+                                                    'bg-red-600' :
+                                                    orderItem?.orderStatus === 'inProcess' ?
+                                                        'bg-yellow-600' :
+                                                        orderItem?.orderStatus === 'delivered' ?
+                                                            'bg-purple-600' :
+                                                            orderItem?.orderStatus === 'inShipping' ?
+                                                                'bg-gray-400' :
+                                                                'bg-black'}`}>
                                                 {orderItem?.orderStatus}
                                             </Badge>
                                         </TableCell>
-                                        <TableCell>{orderItem?.totalAmount}</TableCell>
+                                        <TableCell>${orderItem?.totalAmount}</TableCell>
                                         <TableCell>
-                                            <Dialog
+                                            <Dialog aria-hidden={false}
                                                 open={openDetailsDialog} onOpenChange={() => {
                                                     setOpenDetailsDialog(false);
                                                     dispatch(resetOrderDetails())

@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { DialogContent, DialogTitle } from '../ui/dialog'
+import { DialogContent, DialogDescription, DialogTitle } from '../ui/dialog'
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 import CommonForm from '../common/form'
 import { Badge } from '../ui/badge'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllOrdersForAdmin, getOrderDetailsForAdmin, updateOrderStatus } from '@/store/admin/order-slice'
+import { useToast } from '@/hooks/use-toast'
 
 const initialFormData = {
     status: ''
@@ -14,16 +16,37 @@ function AdminOrderDetailsView({ orderDetails }) {
 
     const [formData, setFormData] = useState(initialFormData)
     const { user } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
+    const { toast } = useToast()
 
     function handleUpdateStatus(event) {
         event.preventDefault();
+
+        const { status } = formData
+        dispatch(updateOrderStatus({ id: orderDetails?._id, orderStatus: status })).then((data) => {
+            console.log(data, '123');
+            if (data?.payload?.success) {
+                dispatch(getOrderDetailsForAdmin(orderDetails?._id))
+                dispatch(getAllOrdersForAdmin())
+                setFormData(initialFormData)
+                toast({
+                    title: "Order status updated successfully!"
+                })
+            }
+
+        })
+
+        console.log(formData, 'formData');
     }
+
+
 
     return (
         <DialogContent className='sm:max-w-[600px] h-[80vh] overflow-auto'>
             <DialogTitle>
                 Order Details
             </DialogTitle>
+            <DialogDescription></DialogDescription>
             <div className='grid gap-4'>
                 <div className='grid gap-2'>
                     <div className='flex items-center mt-6 justify-between'>
@@ -33,13 +56,13 @@ function AdminOrderDetailsView({ orderDetails }) {
                     </div>
                     <div className='flex items-center mt-2 justify-between'>
                         <p className='font-medium '>Order Date</p>
-                        <Label>{orderDetails?.orderDate.split('T')[0]}</Label>
+                        <Label>{orderDetails?.orderDate?.split('T')[0]}</Label>
 
                     </div>
 
                     <div className='flex items-center mt-2 justify-between'>
                         <p className='font-medium '>Order Price</p>
-                        <Label>{orderDetails?.totalAmount}</Label>
+                        <Label>${orderDetails?.totalAmount}</Label>
 
                     </div>
                     <div className='flex items-center mt-2 justify-between'>
@@ -54,7 +77,18 @@ function AdminOrderDetailsView({ orderDetails }) {
                     <div className='flex items-center mt-2 justify-between'>
                         <p className='font-medium '>Order Status</p>
                         <Label>
-                            <Badge className={`px-3 py-1 items-center rounded-full ${orderDetails?.orderStatus === 'confirmed' ? 'bg-green-600' : 'bg-black'}`}>
+                            <Badge className={`px-3 py-1 items-center rounded-full 
+                                ${orderDetails?.orderStatus === 'confirmed' ?
+                                    'bg-green-600' :
+                                    orderDetails?.orderStatus === 'rejected' ?
+                                        'bg-red-600' :
+                                        orderDetails?.orderStatus === 'inProcess' ?
+                                            'bg-yellow-600' :
+                                            orderDetails?.orderStatus === 'delivered' ?
+                                                'bg-purple-600' :
+                                                orderDetails?.orderStatus === 'inShipping' ?
+                                                    'bg-gray-400' :
+                                                    'bg-black'}`}>
                                 {orderDetails?.orderStatus}
                             </Badge>
                         </Label>
@@ -71,16 +105,12 @@ function AdminOrderDetailsView({ orderDetails }) {
 
                                 orderDetails?.cartItems && orderDetails?.cartItems.length > 0 ?
                                     orderDetails?.cartItems.map(item => (
-                                        <li className='flex items-center justify-between'>
-                                            {
-                                                console.log(item.title)
-
-                                            }
-                                            <span>{item.title} ({item.quantity})</span>
+                                        <li key={item?.title} className='flex items-center justify-between'>
+                                            <span>{item?.title} ({item?.quantity})</span>
                                             <div className='flex gap-8 '>
 
-                                                <span>{item.price} x {item.quantity}</span>
-                                                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                                <span>{item?.price} x {item?.quantity}</span>
+                                                <span>${(item?.price * item?.quantity).toFixed(2)}</span>
                                             </div>
                                         </li>
                                     )) : null

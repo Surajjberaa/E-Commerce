@@ -6,7 +6,7 @@ const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL
 
 const initialState = {
     orderList: [],
-    orderDetails: null
+    orderDetails: ''
 
 }
 
@@ -22,6 +22,16 @@ export const getAllOrdersForAdmin = createAsyncThunk('/order/getAllOrdersForAdmi
 export const getOrderDetailsForAdmin = createAsyncThunk('/order/getOrderDetailsForAdmin', async (id) => {
 
     const response = await axios.get(`${BACKEND_URL}/api/admin/orders/details/${id}`)
+
+    return response.data;
+
+})
+
+export const updateOrderStatus = createAsyncThunk('/order/updateOrderStatus', async ({ id, orderStatus }) => {
+
+    const response = await axios.put(`${BACKEND_URL}/api/admin/orders/update/${id}`, {
+        orderStatus
+    })
 
     return response.data;
 
