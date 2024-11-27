@@ -143,9 +143,10 @@ export const getOrderDetails = async (req, res) => {
 
         const { id } = req.params
 
-        const order = await Order.findById({ id })
+        const order = await Order.findById(id)
 
-        if (!order.length) {
+
+        if (!order) {
             return res.status(404).json({
                 success: false,
                 message: "Order not found!"

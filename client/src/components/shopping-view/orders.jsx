@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 import { Dialog } from '../ui/dialog'
 import ShoppingOrderDetailsView from './order-details'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllOrdersByUserId } from '@/store/shop/order-slice'
+import { getAllOrdersByUserId, getOrderDetails, resetOrderDetails } from '@/store/shop/order-slice'
 import { Badge } from '../ui/badge'
 
 function ShoppingOrders() {
@@ -13,13 +13,21 @@ function ShoppingOrders() {
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth)
-    const { orderList } = useSelector(state => state.shopOrder)
+    const { orderList, orderDetails } = useSelector(state => state.shopOrder)
+
+    function handleFetchOrderDetails(getId) {
+        console.log(getId, 'getid');
+
+        dispatch(getOrderDetails(getId))
+        setOpenDetailsDialog(true)
+    }
 
     useEffect(() => {
         dispatch(getAllOrdersByUserId(user?.id))
     }, [dispatch])
 
-    console.log(orderList, "orderList");
+    console.log(orderDetails, "orderDetails");
+
 
 
     return (
@@ -66,11 +74,14 @@ function ShoppingOrders() {
                                         </TableCell>
                                         <TableCell>{orderItem?.totalAmount}</TableCell>
                                         <TableCell>
-                                            <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
-                                                <Button onClick={(() => setOpenDetailsDialog(true))}>
+                                            <Dialog open={openDetailsDialog} onOpenChange={() => {
+                                                setOpenDetailsDialog(false);
+                                                dispatch(resetOrderDetails())
+                                            }}>
+                                                <Button onClick={() => handleFetchOrderDetails(orderItem?._id)}>
                                                     View Details
                                                 </Button>
-                                                <ShoppingOrderDetailsView />
+                                                <ShoppingOrderDetailsView orderDetails={orderDetails} />
                                             </Dialog>
                                         </TableCell>
                                     </TableRow>
