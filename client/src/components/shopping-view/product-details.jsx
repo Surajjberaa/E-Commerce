@@ -73,11 +73,20 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
                     </div>
                     <div className='mt-5'>
-                        <Button className={`w-full ${productDetails?.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'
-                            onClick={() => handleAddToCart(productDetails?._id)}
-                        >
-                            Add to Cart
-                        </Button>
+                        {
+                            productDetails?.totalStock === 0 ?
+                                <Button className={`w-full opacity-60 cursor-not-allowed ${productDetails?.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'
+
+                                >
+                                    Out of stock
+                                </Button>
+                                :
+                                <Button className={`w-full ${productDetails?.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'
+                                    onClick={() => handleAddToCart(productDetails?._id)}
+                                >
+                                    Add to Cart
+                                </Button>
+                        }
                     </div>
                     {/* <Separator className='my-5' />
                     <div className='space-y-2.5'>
