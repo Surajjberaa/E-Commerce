@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv';
 import authRouter from './routes/auth/auth-routes.js'
 import adminProductsRouter from './routes/admin/product-routes.js'
+import adminOrderRouter from './routes/admin/order-routes.js'
 import shopProductsRouter from './routes/shop/products-routes.js'
 import shopCartRouter from './routes/shop/cart-routes.js'
 import shopAddressRouter from './routes/shop/address-routes.js'
@@ -43,6 +44,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/admin/products', adminProductsRouter)
+app.use('/api/admin/orders', adminOrderRouter)
 app.use('/api/shop/products', shopProductsRouter)
 app.use('/api/shop/cart', shopCartRouter)
 app.use('/api/shop/address', shopAddressRouter)
