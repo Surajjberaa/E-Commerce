@@ -32,6 +32,7 @@ function ShoppingListing() {
   const dispatch = useDispatch()
   const { productList, productDetails } = useSelector((state) => state.shoppingProducts)
   const { user } = useSelector((state) => state.auth)
+  const { cartItems } = useSelector(state => state.shopCart)
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
   const [searchParams, setSearchParams] = useSearchParams()
@@ -71,7 +72,26 @@ function ShoppingListing() {
     dispatch(fetchProductDetails(getCurrentProductId))
   }
 
-  function handleAddToCart(getCurrentProductId) {
+  function handleAddToCart(getCurrentProductId, getTotalStock) {
+
+    console.log(cartItems, 'cartITems');
+    let getCartItems = cartItems.items || [];
+
+    if (getCartItems.length) {
+      const indexOfCurrentItem = getCartItems.findIndex(item => item.productId === getCurrentProductId)
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity
+        if (getQuantity >= getTotalStock) {
+          toast({
+            title: `You can add maximum ${getQuantity} quantity of this product`,
+            variant: 'destructive'
+          })
+          return;
+        }
+      }
+    }
+
+
     dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
       console.log(data, 'data');
       if (data?.payload?.success) {
@@ -105,8 +125,8 @@ function ShoppingListing() {
     }
   }, [dispatch, filters, sort])
 
- console.log(productList, 'productList');
-   
+  console.log(productList, 'productList');
+
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6 '>

@@ -14,9 +14,27 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
     const dispatch = useDispatch()
     const { user } = useSelector((state) => state.auth)
+    const { cartItems } = useSelector(state => state.shopCart)
     const { toast } = useToast()
 
-    function handleAddToCart(getCurrentProductId) {
+    function handleAddToCart(getCurrentProductId, getTotalStock) {
+
+        let getCartItems = cartItems.items || [];
+
+        if (getCartItems.length) {
+            const indexOfCurrentItem = getCartItems.findIndex(item => item.productId === getCurrentProductId)
+            if (indexOfCurrentItem > -1) {
+                const getQuantity = getCartItems[indexOfCurrentItem].quantity
+                if (getQuantity >= getTotalStock) {
+                    toast({
+                        title: `You can add maximum ${getQuantity} quantity of this product`,
+                        variant: 'destructive'
+                    })
+                    return;
+                }
+            }
+        }
+
         dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
             console.log(data, 'data');
             if (data?.payload?.success) {
@@ -82,7 +100,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                                 </Button>
                                 :
                                 <Button className={`w-full ${productDetails?.salePrice > 0 ? 'bg-green-500 hover:bg-green-600' : ''} text-white`} variant='default'
-                                    onClick={() => handleAddToCart(productDetails?._id)}
+                                    onClick={() => handleAddToCart(productDetails?._id, productDetails?.totalStock)}
                                 >
                                     Add to Cart
                                 </Button>

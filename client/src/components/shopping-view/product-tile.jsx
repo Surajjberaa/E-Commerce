@@ -58,10 +58,10 @@ function ShoppingProductTile({ product, handleGetProductDetails, handleAddToCart
                     product?.totalStock === 0 ?
                         <Button className='w-full opacity-60 cursor-not-allowed'>
                             Out of stock
-                        </Button> :     
-                <Button className='w-full' onClick={() => handleAddToCart(product?._id)}>
-                    Add to Cart
-                </Button>
+                        </Button> :
+                        <Button className='w-full' onClick={() => handleAddToCart(product?._id, product?.totalStock)}>
+                            Add to Cart
+                        </Button>
                 }
             </CardFooter>
 

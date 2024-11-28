@@ -45,6 +45,7 @@ function ShoppingHome() {
   const slides = [banner1, banner2, banner3]
   const { productList, productDetails } = useSelector(state => state.shoppingProducts)
   const { user } = useSelector(state => state.auth)
+  const { cartItems } = useSelector(state => state.shopCart)
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -65,7 +66,24 @@ function ShoppingHome() {
   }
 
 
-  function handleAddToCart(getCurrentProductId) {
+  function handleAddToCart(getCurrentProductId, getTotalStock) {
+
+    let getCartItems = cartItems.items || [];
+
+    if (getCartItems.length) {
+      const indexOfCurrentItem = getCartItems.findIndex(item => item.productId === getCurrentProductId)
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity
+        if (getQuantity >= getTotalStock) {
+          toast({
+            title: `You can add maximum ${getQuantity} quantity of this product`,
+            variant: 'destructive'
+          })
+          return;
+        }
+      }
+    }
+
     dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
       console.log(data, 'data');
       if (data?.payload?.success) {
