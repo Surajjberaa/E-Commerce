@@ -43,9 +43,9 @@ function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const slides = [banner1, banner2, banner3]
-  const { productList, productDetails } = useSelector(state => state.shoppingProducts)
   const { user } = useSelector(state => state.auth)
   const { cartItems } = useSelector(state => state.shopCart)
+  const { productList, productDetails } = useSelector(state => state.shoppingProducts)
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
