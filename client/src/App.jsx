@@ -42,6 +42,10 @@ function App() {
       <h1 className='text-4xl text-center'>E-Commerce</h1>
 
       <Routes>
+        <Route path='/' element={
+          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          </CheckAuth>
+        } />
         <Route path='/auth' element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout />
