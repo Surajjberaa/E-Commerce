@@ -118,6 +118,7 @@ function ShoppingCheckout() {
             <Button
               className='w-full'
               onClick={handleInititatePaypalPayment}
+              taget='blank'
             >
               Checkout with Paypal
             </Button>
