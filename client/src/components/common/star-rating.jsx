@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 function StarRating({ rating, handleRatingChange }) {
 
-    console.log(rating);
+    // console.log(rating);
 
 
     return (

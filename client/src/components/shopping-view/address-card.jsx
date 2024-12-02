@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 
 function AddressCard({ addressInfo, handleDeleteAddress, handleEditAddress, setCurrentSelectedAddress }) {
     return (
-        <Card className='hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'
+        <Card className='hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg cursor-pointer'
             onClick={
                 setCurrentSelectedAddress
                     ? () => setCurrentSelectedAddress(addressInfo)

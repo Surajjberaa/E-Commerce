@@ -16,7 +16,7 @@ function ShoppingOrders() {
     const { orderList, orderDetails } = useSelector(state => state.shopOrder)
 
     function handleFetchOrderDetails(getId) {
-        console.log(getId, 'getid');
+        // console.log(getId, 'getid');
 
         dispatch(getOrderDetails(getId))
         setOpenDetailsDialog(true)
@@ -26,7 +26,7 @@ function ShoppingOrders() {
         dispatch(getAllOrdersByUserId(user?.id))
     }, [dispatch])
 
-    console.log(orderDetails, "orderDetails");
+    // console.log(orderDetails, "orderDetails");
 
 
 

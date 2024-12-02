@@ -10,8 +10,8 @@ function ShoppingOrderDetailsView({ orderDetails }) {
 
     const { user } = useSelector(state => state.auth)
 
-    console.log(orderDetails?.cartItems, 'cartItems')
-    console.log(user, 'user')
+    // console.log(orderDetails?.cartItems, 'cartItems')
+    // console.log(user, 'user')
 
 
     return (
@@ -77,7 +77,7 @@ function ShoppingOrderDetailsView({ orderDetails }) {
                                     orderDetails?.cartItems.map(item => (
                                         <li className='flex items-center justify-between'>
                                             {
-                                                console.log(item.title)
+                                                // console.log(item.title)
 
                                             }
                                             <span>{item.title} ({item.quantity})</span>

@@ -26,8 +26,8 @@ function MenuItems() {
       ? {
         category: [getCurrentMenuItem.id]
       } : null
-    console.log('inside navigate');
-    console.log(getCurrentMenuItem);
+    // console.log('inside navigate');
+    // console.log(getCurrentMenuItem);
 
 
     sessionStorage.setItem('filters', JSON.stringify(currentFilter))
@@ -73,8 +73,13 @@ function HeaderRightContent() {
 
   return <div className='flex lg:items-center lg:flex-row flex-col justify-end gap-4'>
     <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
-      <Button variant='outline' size='icon' onClick={() => setOpenCartSheet(true)}>
+      <Button variant='outline' size='icon' onClick={() => setOpenCartSheet(true)} className='relative'>
         <ShoppingCart className='h-6 w-6 ' />
+        {cartItems && cartItems?.items?.length ? 
+        <div className='absolute top-[-10px] h-6 w-6 text-xs flex justify-center items-center right-[-9px] border rounded-full bg-black text-white'>
+        <span >{cartItems?.items?.length}</span> 
+        </div> : null
+        }
         <span className='sr-only'>User Cart</span>
       </Button>
       <UserCartWrapper setOpenCartSheet={setOpenCartSheet} cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []} />

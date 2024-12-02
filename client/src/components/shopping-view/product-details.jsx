@@ -42,7 +42,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         }
 
         dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
-            console.log(data, 'data');
+            // console.log(data, 'data');
             if (data?.payload?.success) {
                 dispatch(fetchCartItems(user?.id))
                 toast({
@@ -72,7 +72,24 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             reviewValue: rating
 
         })).then(data => {
+            // console.log('inside then');
+            
+            // console.log(data);
 
+            if (data?.payload?.error === "Buy Product"){
+                return toast({
+                    title: data?.payload?.message,
+                    variant: 'destructive'
+                })
+            }
+
+            if (data?.payload?.error === "Review exists"){
+                return toast({
+                    title: data?.payload?.message,
+                    variant: 'destructive'
+                })
+            }
+            
             if (data?.payload?.success) {
                 setRating(0)
                 setReviewMsg('')
@@ -91,7 +108,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
     }, [productDetails])
 
-    console.log(reviews, 'reviews');
+    // console.log(reviews, 'reviews');
 
     const averageReview = reviews && reviews.length > 0 ?
         reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) / reviews.length : 0

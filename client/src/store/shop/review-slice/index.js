@@ -13,7 +13,7 @@ const initialState = {
 export const addReview = createAsyncThunk('/reviews/addReview',
     async (formData) => {
 
-        console.log(formData);
+        // console.log(formData);
         const result = await axios.post(`${BACKEND_URL}/api/shop/review/add`, formData)
 
         return result?.data

@@ -17,7 +17,7 @@ function ShoppingCheckout() {
   const dispatch = useDispatch()
   const {toast} = useToast()
 
-  console.log(currentSelectedAddress, 'currentSelectedAddress');
+  // console.log(currentSelectedAddress, 'currentSelectedAddress');
 
 
   const totalCartAmount = cartItems && cartItems?.items && cartItems?.items.length > 0 ? cartItems.items.reduce(
@@ -26,7 +26,7 @@ function ShoppingCheckout() {
 
   function handleInititatePaypalPayment() {
     
-    console.log(cartItems, 'length');
+    // console.log(cartItems, 'length');
     if(cartItems.items.length === 0 ){
       
       toast({
@@ -72,10 +72,10 @@ function ShoppingCheckout() {
       payerId: ''
     }
 
-    console.log(orderData);
+    // console.log(orderData);
 
     dispatch(createNewOrder(orderData)).then((data) => {
-      console.log(data, 'Suraj');
+      // console.log(data, 'Suraj');
       if (data?.payload?.success) {
         setIsPaymentStart(true)
       } else {
@@ -84,8 +84,8 @@ function ShoppingCheckout() {
     });
 
   }
-  console.log(orderId, 'order');
-  console.log(approvalUrl, 'approval');
+  // console.log(orderId, 'order');
+  // console.log(approvalUrl, 'approval');
 
   if (approvalUrl) {
     window.location.href = approvalUrl;

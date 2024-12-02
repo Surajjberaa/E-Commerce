@@ -24,7 +24,7 @@ function AdminOrderDetailsView({ orderDetails }) {
 
         const { status } = formData
         dispatch(updateOrderStatus({ id: orderDetails?._id, orderStatus: status })).then((data) => {
-            console.log(data, '123');
+            // console.log(data, '123');
             if (data?.payload?.success) {
                 dispatch(getOrderDetailsForAdmin(orderDetails?._id))
                 dispatch(getAllOrdersForAdmin())
@@ -36,7 +36,7 @@ function AdminOrderDetailsView({ orderDetails }) {
 
         })
 
-        console.log(formData, 'formData');
+        // console.log(formData, 'formData');
     }
 
 

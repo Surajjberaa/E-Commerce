@@ -15,20 +15,20 @@ function UserCartItemsContent({ cartItem }) {
     const { productList, productDetails } = useSelector(state => state.shoppingProducts)
 
     const handleUpdateQuantity = (getCartItem, typeOfAction) => {
-        console.log('outside');
+        // console.log('outside');
 
         if (typeOfAction === 'plus') {
 
             let getCartItems = cartItems.items || [];
 
             if (getCartItems.length) {
-                console.log('inside');
+                // console.log('inside');
 
                 const indexOfCurrentItem = getCartItems.findIndex(item => item?.productId === getCartItem?.productId)
 
                 const getCurrentProductIndex = productList.findIndex((product) => product?._id === getCartItem?.productId)
 
-                console.log(getCurrentProductIndex, 'gettotalstock');
+                // console.log(getCurrentProductIndex, 'gettotalstock');
                 const getTotalStock = productList[getCurrentProductIndex]?.totalStock
 
 
@@ -55,12 +55,12 @@ function UserCartItemsContent({ cartItem }) {
     }
 
     const handleDeleteCartItem = (getCartItem) => {
-        console.log(getCartItem, 'cartItem');
+        // console.log(getCartItem, 'cartItem');
         dispatch(deleteCartItems({
             userId: user?.id,
             productId: getCartItem?.productId
         })).then((data) => {
-            console.log(data, 'data');
+            // console.log(data, 'data');
 
             if (data?.payload?.success) {
                 toast({
@@ -100,7 +100,7 @@ function UserCartItemsContent({ cartItem }) {
                 <Button variant='outline' size='icon' className='w-8 h-8 p-0 mt-2 text-red-700 rounded-full'
                     onClick={() => {
                         handleDeleteCartItem(cartItem)
-                        console.log(cartItem);
+                        // console.log(cartItem);
 
                     }}
                 >

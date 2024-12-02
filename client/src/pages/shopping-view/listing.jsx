@@ -68,13 +68,13 @@ function ShoppingListing() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
+    // console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId))
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
 
-    console.log(cartItems, 'cartITems');
+    // console.log(cartItems, 'cartITems');
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -93,7 +93,7 @@ function ShoppingListing() {
 
 
     dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
-      console.log(data, 'data');
+      // console.log(data, 'data');
       if (data?.payload?.success) {
         dispatch(fetchCartItems(user?.id))
         toast({
@@ -125,7 +125,7 @@ function ShoppingListing() {
     }
   }, [dispatch, filters, sort])
 
-  console.log(productList, 'productList');
+  // console.log(productList, 'productList');
 
 
   return (

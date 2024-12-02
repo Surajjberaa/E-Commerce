@@ -26,7 +26,7 @@ function SearchView() {
 
     function handleAddToCart(getCurrentProductId, getTotalStock) {
 
-        console.log(cartItems, 'cartITems');
+        // console.log(cartItems, 'cartITems');
         let getCartItems = cartItems.items || [];
 
         if (getCartItems.length) {
@@ -45,7 +45,7 @@ function SearchView() {
 
 
         dispatch(addToCart({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })).then((data) => {
-            console.log(data, 'data');
+            // console.log(data, 'data');
             if (data?.payload?.success) {
                 dispatch(fetchCartItems(user?.id))
                 toast({
@@ -57,13 +57,13 @@ function SearchView() {
 
 
     function handleGetProductDetails(getCurrentProductId) {
-        console.log(getCurrentProductId);
+        // console.log(getCurrentProductId);
         dispatch(fetchProductDetails(getCurrentProductId))
     }
 
     useEffect(() => {
         if (keyword && keyword.trim() !== '' && keyword.trim().length > 2) {
-            console.log('inside');
+            // console.log('inside');
 
             setTimeout(() => {
                 setSearchParams(new URLSearchParams(`?keyword=${keyword}`))
@@ -81,7 +81,7 @@ function SearchView() {
     }, [productDetails])
 
 
-    console.log(searchResults, 'searchResults');
+    // console.log(searchResults, 'searchResults');
 
 
     return (

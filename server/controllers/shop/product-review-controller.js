@@ -17,8 +17,9 @@ export const addProductReview = async (req, res) => {
 
 
         if (!order) {
-            return res.status(403).json({
+            return res.status(250).json({
                 success: false,
+                error: "Buy Product",
                 message: "You need to purchase product to review it"
             })
         }
@@ -28,8 +29,9 @@ export const addProductReview = async (req, res) => {
         })
 
         if (checkExistingReview) {
-            return res.status(400).json({
+            return res.status(250).json({
                 success: false,
+                error: 'Review exists',
                 message: "You already reviewed this product"
             })
         }
