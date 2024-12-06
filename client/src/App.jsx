@@ -77,7 +77,7 @@ function App() {
           <Route path='paypal-return' element={<PaypalReturnPage />} />
           <Route path='payment-success' element={<PaymentSuccessPage />} />
         </Route>
-        <Route path='*' element={<NotFound />} />
+        <Route path='/error' element={<NotFound />} />
 
         <Route path='/unauthorised-page' element={<UnauthorisedPage />} />
       </Routes>
