@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "dist/**/*",
+        "use": "@vercel/static"
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/:path*",
+        "destination": "/index.html"
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/404",
+        "destination": "/*",
+        "statusCode": 301
+      },
+      {
+        "source": "/:path*",
+        "destination": "/*",
+        "statusCode": 301
+      }
+    ]
+  }
+  
