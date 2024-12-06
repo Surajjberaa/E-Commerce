@@ -12,8 +12,12 @@
         "destination": "/index.html"
       }
     ],
-    "error": {
-      "404": "/error"
-    }
+    "redirects": [
+      {
+        "source": "/404",
+        "destination": "/error",
+        "permanent": false
+      }
+    ]
   }
   
