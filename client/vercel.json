@@ -15,12 +15,12 @@
     "redirects": [
       {
         "source": "/404",
-        "destination": "/*",
+        "destination": "/error",
         "statusCode": 301
       },
       {
         "source": "/:path*",
-        "destination": "/*",
+        "destination": "/error",
         "statusCode": 301
       }
     ]
