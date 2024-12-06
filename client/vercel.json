@@ -12,17 +12,8 @@
         "destination": "/index.html"
       }
     ],
-    "redirects": [
-      {
-        "source": "/404",
-        "destination": "/error",
-        "statusCode": 301
-      },
-      {
-        "source": "/:path*",
-        "destination": "/error",
-        "statusCode": 301
-      }
-    ]
+    "error": {
+      "404": "/error"
+    }
   }
   
