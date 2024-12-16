@@ -116,11 +116,11 @@ function ShoppingHome() {
 
   return (
     <div className='flex flex-col min-h-screen bg-gray-100'>
-      <div className='relative w-full h-[600px] overflow-hidden'>
+      <div className='relative w-full h-[200px] md:h-[600px] overflow-hidden'>
 
         {
           slides.map((slide, index) => (
-            <img key={index} src={slide} alt='banner' className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${currentSlide === index ? 'opacity-100' : 'opacity-0'} `} />
+            <img key={index} src={slide} alt='banner' className={`absolute top-0 left-0 w-full h-full object-fill md:object-cover transition-opacity duration-1000 ${currentSlide === index ? 'opacity-100' : 'opacity-0'} `} />
           ))
         }
         <Button className='absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80 text-gray-800 hover:text-white '
@@ -135,10 +135,10 @@ function ShoppingHome() {
         </Button>
 
       </div>
-      <section className='py-12 bg-gray-50'>
+      <section className='py-4 md:py-12 bg-gray-50'>
         <div className='container mx-auto'>
           <h2 className='text-3xl font-bold text-center mb-8'>Shop by Category</h2>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
+          <div className='grid grid-cols-2 px-3 md:grid-cols-3 lg:grid-cols-5 gap-4'>
             {
               categoriesWithIcon.map((categoryItem) => (
                 <Card onClick={() => handleNavigateToListingPage(categoryItem, 'category')} key={categoryItem.id} className='cursor-pointer hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'>
@@ -156,7 +156,7 @@ function ShoppingHome() {
       <section className='py-12 bg-gray-50'>
         <div className='container mx-auto'>
           <h2 className='text-3xl font-bold text-center mb-8'>Shop by Brand</h2>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
+          <div className='grid grid-cols-2 px-3 md:grid-cols-3 lg:grid-cols-6 gap-4'>
             {
               brandsWithIcon.map((brandItem) => (
                 <Card onClick={() => handleNavigateToListingPage(brandItem, 'brand')} key={brandItem.id} className='cursor-pointer hover:shadow-red-300 hover:transition-opacity duration-1000 shadow-lg'>
@@ -174,7 +174,7 @@ function ShoppingHome() {
       <section>
         <div className='container mx-auto'>
           <h2 className='text-3xl font-bold text-center mb-8'>Featured Products</h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+          <div className='grid grid-cols-1 px-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
             {
               productList && productList.length > 0 ?
                 productList.map((product) => (

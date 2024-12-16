@@ -12,8 +12,13 @@ function AddressCard({ addressInfo, handleDeleteAddress, handleEditAddress, setC
                     : null
             }
         >
-            <CardHeader className='font-semibold text-xl'>
-                Address Details
+            <CardHeader className='font-semibold text-xl flex flex-row justify-between'>
+                <h1>
+                    Address Details
+                </h1>
+                <Button className='bg-green-600 w-20 h-8'>
+                    Select
+                </Button>
             </CardHeader>
             <CardContent className='grid gap-4'>
                 <Label>

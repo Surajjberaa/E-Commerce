@@ -39,7 +39,7 @@ function App() {
   return (
     <div className='flex flex-col overflow-hidden bg-white'>
 
-      <h1 className='text-4xl text-center'>E-Commerce</h1>
+      {/* <h1 className='text-4xl text-center'>E-Commerce</h1> */}
 
       <Routes>
         <Route path='/' element={
